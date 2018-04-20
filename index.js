@@ -5,16 +5,26 @@ const searchBtn = document.getElementById('search-btn');
 const searchInput = document.getElementById('search-input');
 
 searchForm.addEventListener('submit', e => {
+  // Get sort
   const sortBy = document.querySelector('input[name="sortby"]:checked').value;
+  // Get limit
   const searchLimit = document.getElementById('limit').value;
+  // Get search
   const searchTerm = searchInput.value;
+  // Check for input
   if (searchTerm == '') {
+    // Show message
     showMessage('Please add a search term', 'alert-danger');
   }
+  // Clear field
   searchInput.value = '';
+
+  // Search Reddit
   reddit.search(searchTerm, searchLimit, sortBy).then(results => {
     let output = '<div class="card-columns">';
+    console.log(results);
     results.forEach(post => {
+      // Check for image
       let image = post.preview
         ? post.preview.images[0].source.url
         : 'https://cdn.comparitech.com/wp-content/uploads/2017/08/reddit-1.jpg';
@@ -27,8 +37,12 @@ searchForm.addEventListener('submit', e => {
         <a href="${post.url}" target="_blank
         " class="btn btn-primary">Read More</a>
         <hr>
-        <span class="badge badge-secondary">Subreddit: ${post.subreddit}</span> 
-        <span class="badge badge-dark">Score: ${post.score}</span>
+        <ul class="list-group text-center">
+        <li class="list-group-item">Subreddit:<strong> ${post.subreddit} </strong></li>
+        <li class="list-group-item">Score: <strong>${post.score}</strong></li>
+        </ul>
+        <span class="badge badge-secondary"></span> 
+        <span class="badge badge-dark"></span>
       </div>
     </div>
       `;
@@ -39,20 +53,30 @@ searchForm.addEventListener('submit', e => {
 
   e.preventDefault();
 });
+
+// Show Message Function
 function showMessage(message, className) {
+  // Create div
   const div = document.createElement('div');
+  // Add classes
   div.className = `alert ${className}`;
+  // Add text
   div.appendChild(document.createTextNode(message));
+  // Get parent
   const searchContainer = document.getElementById('search-container');
+  // Get form
   const search = document.getElementById('search');
 
+  // Insert alert
   searchContainer.insertBefore(div, search);
 
+  // Timeout after 3 sec
   setTimeout(function() {
     document.querySelector('.alert').remove();
   }, 3000);
 }
 
+// Truncate String Function
 function truncateString(myString, limit) {
   const shortened = myString.indexOf(' ', limit);
   if (shortened == -1) return myString;

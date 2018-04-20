@@ -77,7 +77,7 @@ parcelRequire = (function (modules, cache, entry) {
 
   // Override the current require with this new one
   return newRequire;
-})({11:[function(require,module,exports) {
+})({3:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -96,7 +96,7 @@ exports.default = {
     });
   }
 };
-},{}],4:[function(require,module,exports) {
+},{}],2:[function(require,module,exports) {
 'use strict';
 
 var _reddit = require('./reddit');
@@ -110,18 +110,28 @@ var searchBtn = document.getElementById('search-btn');
 var searchInput = document.getElementById('search-input');
 
 searchForm.addEventListener('submit', function (e) {
+  // Get sort
   var sortBy = document.querySelector('input[name="sortby"]:checked').value;
+  // Get limit
   var searchLimit = document.getElementById('limit').value;
+  // Get search
   var searchTerm = searchInput.value;
+  // Check for input
   if (searchTerm == '') {
+    // Show message
     showMessage('Please add a search term', 'alert-danger');
   }
+  // Clear field
   searchInput.value = '';
+
+  // Search Reddit
   _reddit2.default.search(searchTerm, searchLimit, sortBy).then(function (results) {
     var output = '<div class="card-columns">';
+    console.log(results);
     results.forEach(function (post) {
+      // Check for image
       var image = post.preview ? post.preview.images[0].source.url : 'https://cdn.comparitech.com/wp-content/uploads/2017/08/reddit-1.jpg';
-      output += '\n      <div class="card mb-2">\n      <img class="card-img-top" src="' + image + '" alt="Card image cap">\n      <div class="card-body">\n        <h5 class="card-title">' + post.title + '</h5>\n        <p class="card-text">' + truncateString(post.selftext, 100) + '</p>\n        <a href="' + post.url + '" target="_blank\n        " class="btn btn-primary">Read More</a>\n        <hr>\n        <span class="badge badge-secondary">Subreddit: ' + post.subreddit + '</span> \n        <span class="badge badge-dark">Score: ' + post.score + '</span>\n      </div>\n    </div>\n      ';
+      output += '\n      <div class="card mb-2">\n      <img class="card-img-top" src="' + image + '" alt="Card image cap">\n      <div class="card-body">\n        <h5 class="card-title">' + post.title + '</h5>\n        <p class="card-text">' + truncateString(post.selftext, 100) + '</p>\n        <a href="' + post.url + '" target="_blank\n        " class="btn btn-primary">Read More</a>\n        <hr>\n        <ul class="list-group text-center">\n        <li class="list-group-item">Subreddit:<strong> ' + post.subreddit + ' </strong></li>\n        <li class="list-group-item">Score: <strong>' + post.score + '</strong></li>\n        </ul>\n        <span class="badge badge-secondary"></span> \n        <span class="badge badge-dark"></span>\n      </div>\n    </div>\n      ';
     });
     output += '</div>';
     document.getElementById('results').innerHTML = output;
@@ -129,26 +139,36 @@ searchForm.addEventListener('submit', function (e) {
 
   e.preventDefault();
 });
+
+// Show Message Function
 function showMessage(message, className) {
+  // Create div
   var div = document.createElement('div');
+  // Add classes
   div.className = 'alert ' + className;
+  // Add text
   div.appendChild(document.createTextNode(message));
+  // Get parent
   var searchContainer = document.getElementById('search-container');
+  // Get form
   var search = document.getElementById('search');
 
+  // Insert alert
   searchContainer.insertBefore(div, search);
 
+  // Timeout after 3 sec
   setTimeout(function () {
     document.querySelector('.alert').remove();
   }, 3000);
 }
 
+// Truncate String Function
 function truncateString(myString, limit) {
   var shortened = myString.indexOf(' ', limit);
   if (shortened == -1) return myString;
   return myString.substring(0, shortened);
 }
-},{"./reddit":11}],13:[function(require,module,exports) {
+},{"./reddit":3}],7:[function(require,module,exports) {
 
 var OVERLAY_ID = '__parcel__error__overlay__';
 
@@ -178,7 +198,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = '' || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + '37393' + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + '36949' + '/');
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
 
@@ -317,5 +337,5 @@ function hmrAccept(bundle, id) {
     return hmrAccept(global.parcelRequire, id);
   });
 }
-},{}]},{},[13,4])
+},{}]},{},[7,2])
 //# sourceMappingURL=/projects.f1806c8e.map
